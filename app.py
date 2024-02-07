@@ -20,6 +20,7 @@ def callGemini(question, prompt):
 # Function to run query on the mySQL db
 def readSQL(query, db_user="root", db_password="root", db_host="localhost", db_name="hospital"):
     try:
+        global connection
         # Establish a connection
         connection = mysql.connector.connect(
             user=db_user,
@@ -45,7 +46,7 @@ def readSQL(query, db_user="root", db_password="root", db_host="localhost", db_n
 
 
 # Function to take a snapshot of the table and column names as a guide on streamlit's sidepanel
-def captureSchema(db_user="root", db_password="VA9999", db_host="localhost", db_name="hospital"):
+def captureSchema(db_user="root", db_password="root", db_host="localhost", db_name="hospital"):
     schema = {}
     try:
         connection = mysql.connector.connect(
@@ -190,9 +191,9 @@ dropdown = st.sidebar.expander("Inspect Database")
 
 # Display schema information when the expander is open
 with dropdown:
-    schema = captureSchema(db_user="root", db_password="VA9999", db_host="localhost", db_name="hospital")
-    for table, columns in schema.items():
-        st.write(f"{table}:\n    {', '.join(columns)}")
+   schema = captureSchema(db_user="root", db_password="root", db_host="localhost", db_name="hospital")
+   for table, columns in schema.items():
+       st.write(f"{table}:\n    {', '.join(columns)}")
 
 
 # Instructions
